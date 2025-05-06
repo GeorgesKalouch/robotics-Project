@@ -28,6 +28,14 @@ function App() {
   }, []);
   */
 
+  useEffect(() => {
+    requestPermission();
+    onMessageListener().then((payload) => {
+      console.log("Received foreground message:", payload);
+      alert(`${payload.notification.title}\n${payload.notification.body}`);
+    });
+  }, []);
+
   return (
     <div className="container">
       <h1>🚰 Tank Monitor</h1>
