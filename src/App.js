@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./App.css";
+import { onMessageListener, requestPermission } from "./firebase";
 
 function App() {
   const [waterLevel, setWaterLevel] = useState(65); // Placeholder
