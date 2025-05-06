@@ -1,23 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import "./App.css";
 
 function App() {
+  const [waterLevel, setWaterLevel] = useState(65); // Placeholder
+  const [leak, setLeak] = useState(true); // Placeholder
+  const [error, setError] = useState(null);
+
+  // Uncomment and use this when server is ready
+  /*
+  useEffect(() => {
+    const fetchData = () => {
+      fetch("http://192.168.143.100/data")
+        .then((res) => res.json())
+        .then((data) => {
+          setWaterLevel(data.waterLevel);
+          setLeak(data.leak);
+          setError(null);
+        })
+        .catch(() => setError("Cannot connect to device"));
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 3000);
+    return () => clearInterval(interval);
+  }, []);
+  */
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="container">
+      <h1>🚰 Tank Monitor</h1>
+
+      <div className="progress-container">
+        <CircularProgressbar
+          value={waterLevel}
+          text={`${waterLevel}%`}
+          styles={buildStyles({
+            pathColor: "#007bff",
+            textColor: "#333",
+            trailColor: "#eee",
+            textSize: "16px",
+          })}
+        />
+      </div>
+
+      <div className="status">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <strong>Leak Detected:</strong>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p className={`leak ${leak ? "danger" : "safe"}`}>
+          {leak ? "🚨 Leak Detected!" : "✅ No Leak"}
+        </p>
+      </div>
+
+      {error && <p className="error">{error}</p>}
     </div>
   );
 }
